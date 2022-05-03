@@ -3,7 +3,7 @@ const boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
 const axios = require('axios').default;
 
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const { config } = require('../../server/config');
 const { userModel } = require('../users/user.model');
@@ -80,9 +80,12 @@ const AuthControllers = {
 		// },
 		async active(token) {
 			try {
+
 				const payload = jwt.verify(token, config.jwtSecret);
 
-				const individual = await individualModel.getOne({ _id: payload.sub });
+				const individual = await individualModel.getOne({
+					_id: new ObjectId(payload.sub),
+				});
 
 				if (individual.token !== token) throw boom.unauthorized();
 

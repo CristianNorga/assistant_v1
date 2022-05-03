@@ -1,6 +1,7 @@
 const boom = require('@hapi/boom');
 // const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const axios = require('axios').default;
 
 // const { ObjectId } = require('mongodb');
 
@@ -30,9 +31,28 @@ const AuthControllers = {
 		},
 	},
 	device: {
+		async test() {
+			try {
+				console.log('test iniT');
+				let route = '/api/v1/auth/verify-device';
+				let url = 'http://localhost:3000' + route;
+				let payload = {
+					email: 'test@correo.com',
+					deviceId: '123456789',
+					alexaPassword: config.alexaPassword,
+				};
+				let result = await axios.get(url, {data: payload});
+	
+				console.log('result', result);
+			} catch (error) {
+				console.log('error', error);				
+			}
+
+		},
 		async search(req) {
+			console.log('req.body', req.body);
 			const individual = await individualModel.getOne({ email: req.body.email });
-			if (!individual) throw boom.notFound('No se encontró ningun dispositivo');
+			if (!individual) throw boom.unauthorized('No autorizado');
 
 			let devices = individual.devices;
 
@@ -42,7 +62,7 @@ const AuthControllers = {
 
 			if (!devices) throw boom.notFound('No existe el dispositivo');
 
-			if (!devices.isActived) throw boom.unauthorized('El dispositivo no esta activo');
+			if (!devices.isActived) throw boom.preconditionFailed('El dispositivo no esta activo');
 
 		},
 		authenticate(req) {
@@ -58,13 +78,13 @@ const AuthControllers = {
 		// 	});
 		// 	await individualModel.update(individual);
 		// },
-		async active(req) {
+		async active(token) {
 			try {
-				const payload = jwt.verify(req.query.token, config.jwtSecret);
+				const payload = jwt.verify(token, config.jwtSecret);
 
 				const individual = await individualModel.getOne({ _id: payload.sub });
 
-				if (individual.token !== req.query.token) throw boom.unauthorized();
+				if (individual.token !== token) throw boom.unauthorized();
 
 				let device = {
 					_id: payload.deviceId,
@@ -72,12 +92,16 @@ const AuthControllers = {
 					alias: payload.alias,
 				};
 
+				
 				individual.devices.push(device);
-
-				req.body = {
+				
+				let body = {
 					devices: individual.devices,
 				};
-				let update = { $set: req.body };
+				// req.body = {
+				// 	devices: individual.devices,
+				// };
+				let update = { $set: body };
 
 				await individualModel.update({ _id: individual._id }, update);
 

@@ -1,42 +1,6 @@
 const nodemailer = require('nodemailer');
 const { config } = require('../../server/config');
 
-// const viaEmail = async (req = {}) => {
-// 	const email = {
-// 		from: config.smtpEmail,
-// 		to: `${req.email}`,
-// 		subject: 'email para registrar dispositivo',
-// 		html: `<b>Ingresa a este link => ${req.link}</b>`,
-// 	};
-
-// 	const transporter = nodemailer.createTransport({
-// 		host: 'smtp.gmail.com',
-// 		secure: true,
-// 		port: 465,
-// 		auth: {
-// 			user: config.smtpEmail,
-// 			pass: config.smtpPassword,
-// 		},
-// 	});
-// 	await transporter.sendMail(email);
-// };
-
-// const notify = async (individual = {}, priority = false) => {
-// 	if (!priority) {
-// 		//evalua si el usuario tiene el permiso
-// 	}
-
-// 	let via = individual.notifications.via;
-// 	switch (individual[via]) {
-// 		case 'email':
-// 			await viaEmail(individual);
-// 			break;
-
-// 		default:
-// 			break;
-// 	}
-// }
-
 const notifications = {
 	async send (individual = {}, priority = false) {
 		if (!priority) {

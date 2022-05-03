@@ -41,6 +41,20 @@ router.get(
 	}
 );
 
+router.get('/test', async (req, res) => {
+	try {
+		await AuthControllers.device.test();
+
+		res.status(200);
+		res.send({
+			response: 'ok',
+			message: 'test',
+		});
+	} catch (error) {
+		centerManage.boom.handler(error, res);
+	}
+});
+
 router.post(
   '/register-device',
   async (req, res) => {

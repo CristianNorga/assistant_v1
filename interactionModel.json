@@ -1,0 +1,316 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "gestor trabajo",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "ResetConfigIntent",
+          "slots": [],
+          "samples": [
+            "por favor reinicia configuracion",
+            "reiniciar configuracion",
+            "reinicia configuracion"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "ExecuteIndividualIntent",
+          "slots": [
+            {
+              "name": "action",
+              "type": "typeAction"
+            },
+            {
+              "name": "field",
+              "type": "keys",
+              "samples": [
+                "el {field}",
+                "la {field}",
+                "{field}"
+              ]
+            },
+            {
+              "name": "name",
+              "type": "AMAZON.FirstName"
+            },
+            {
+              "name": "valueField",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{valueField}",
+                "es {valueField}"
+              ]
+            }
+          ],
+          "samples": [
+            "{action} al individuo {valueField} por {field}",
+            "{action} al individuo {valueField} por la {field}",
+            "{action} al individuo {valueField} por el {field}",
+            "{action} al individuo {name}",
+            "{action} el individuo {name}",
+            "{action} a la persona {name}",
+            "{action} a {name}"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "name": "typeAction",
+          "values": [
+            {
+              "id": "delete",
+              "name": {
+                "value": "Eliminar",
+                "synonyms": [
+                  "elimina",
+                  "borra",
+                  "borrar"
+                ]
+              }
+            },
+            {
+              "id": "update",
+              "name": {
+                "value": "Aztualizar",
+                "synonyms": [
+                  "actualiza"
+                ]
+              }
+            },
+            {
+              "id": "read",
+              "name": {
+                "value": "Leer",
+                "synonyms": [
+                  "lee",
+                  "busca",
+                  "buscar"
+                ]
+              }
+            },
+            {
+              "id": "create",
+              "name": {
+                "value": "Crear",
+                "synonyms": [
+                  "crea",
+                  "registra",
+                  "registrar"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "typeSubject",
+          "values": [
+            {
+              "id": "device",
+              "name": {
+                "value": "el dispositivo",
+                "synonyms": [
+                  "dispositivo"
+                ]
+              }
+            },
+            {
+              "id": "individual",
+              "name": {
+                "value": "el individuo",
+                "synonyms": [
+                  "humano",
+                  "persona",
+                  "individuo"
+                ]
+              }
+            },
+            {
+              "id": "company",
+              "name": {
+                "value": "la compañia",
+                "synonyms": [
+                  "sociedad",
+                  "empresa",
+                  "compañia"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "keys",
+          "values": [
+            {
+              "id": "email",
+              "name": {
+                "value": "correo"
+              }
+            },
+            {
+              "id": "mobile",
+              "name": {
+                "value": "celular",
+                "synonyms": [
+                  "telefono",
+                  "movil"
+                ]
+              }
+            },
+            {
+              "id": "numberId",
+              "name": {
+                "value": "numero de documento",
+                "synonyms": [
+                  "cedula",
+                  "documento"
+                ]
+              }
+            },
+            {
+              "id": "lastName",
+              "name": {
+                "value": "apellido"
+              }
+            },
+            {
+              "id": "firstName",
+              "name": {
+                "value": "primer nombre",
+                "synonyms": [
+                  "nombre"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "ResetConfigIntent",
+          "confirmationRequired": true,
+          "prompts": {
+            "confirmation": "Confirm.Intent.1421645823335"
+          },
+          "slots": []
+        },
+        {
+          "name": "ExecuteIndividualIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "action",
+              "type": "typeAction",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "field",
+              "type": "keys",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1097540386582.749589535276"
+              }
+            },
+            {
+              "name": "name",
+              "type": "AMAZON.FirstName",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            },
+            {
+              "name": "valueField",
+              "type": "AMAZON.SearchQuery",
+              "confirmationRequired": true,
+              "elicitationRequired": true,
+              "prompts": {
+                "confirmation": "Confirm.Slot.1097540386582.1381653206966",
+                "elicitation": "Elicit.Slot.1097540386582.1381653206966"
+              }
+            }
+          ]
+        }
+      ],
+      "delegationStrategy": "ALWAYS"
+    },
+    "prompts": [
+      {
+        "id": "Confirm.Intent.1421645823335",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Esta seguro de reiniciar la configuración?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.1217797414031.80584059723",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "que accion deseas realizar?"
+          },
+          {
+            "type": "PlainText",
+            "value": "que accion deseas realizar para {subject} ?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.1097540386582.1381653206966",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "y cual es el valor del campo?"
+          },
+          {
+            "type": "PlainText",
+            "value": "Vale, cual es el valor de la llave?"
+          }
+        ]
+      },
+      {
+        "id": "Confirm.Slot.1097540386582.1381653206966",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "vale, entonces es {valueField} ?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.1097540386582.749589535276",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Me puedes regalar la llave"
+          },
+          {
+            "type": "PlainText",
+            "value": "No entendi el campo"
+          }
+        ]
+      }
+    ]
+  }
+}

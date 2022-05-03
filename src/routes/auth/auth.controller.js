@@ -1,7 +1,7 @@
 const boom = require('@hapi/boom');
 // const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const axios = require('axios').default;
+// const axios = require('axios').default;
 
 const { ObjectId } = require('mongodb');
 
@@ -31,26 +31,25 @@ const AuthControllers = {
 		},
 	},
 	device: {
-		async test() {
-			try {
-				console.log('test iniT');
-				let route = '/api/v1/auth/verify-device';
-				let url = 'http://localhost:3000' + route;
-				let payload = {
-					email: 'test@correo.com',
-					deviceId: '123456789',
-					alexaPassword: config.alexaPassword,
-				};
-				let result = await axios.get(url, {data: payload});
+		// async test() {
+		// 	try {
+		// 		console.log('test iniT');
+		// 		let route = '/api/v1/auth/verify-device';
+		// 		let url = 'http://localhost:3000' + route;
+		// 		let payload = {
+		// 			email: 'test@correo.com',
+		// 			deviceId: '123456789',
+		// 			alexaPassword: config.alexaPassword,
+		// 		};
+		// 		let result = await axios.get(url, {data: payload});
 	
-				console.log('result', result);
-			} catch (error) {
-				console.log('error', error);				
-			}
+		// 		console.log('result', result);
+		// 	} catch (error) {
+		// 		console.log('error', error);				
+		// 	}
 
-		},
+		// },
 		async search(req) {
-			console.log('req.body', req.body);
 			const individual = await individualModel.getOne({ email: req.body.email });
 			if (!individual) throw boom.unauthorized('No autorizado');
 
